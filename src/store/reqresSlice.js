@@ -6,8 +6,12 @@ const { getUsers } = new ReqresService()
 export const fetchUsers = createAsyncThunk(
 	'reqres/fetchUsers',
 
-	async function () {
-		return await getUsers()
+	async function (_, { rejectWithValue }) {
+		try {
+			return await getUsers()
+		} catch (error) {
+			return rejectWithValue(error.message)
+		}
 	}
 )
 
@@ -15,10 +19,10 @@ const reqresSlice = createSlice({
 	name: 'reqres',
 
 	initialState: {
-		usersData: [],
-		loading: true,
-		error: false,
+		users: [],
 		isLoggedIn: false,
+		status: null,
+		error: null,
 	},
 
 	reducers: {},
@@ -29,9 +33,11 @@ const reqresSlice = createSlice({
 		},
 		[fetchUsers.fulfilled]: (state, actions) => {
 			state.status = 'resolved'
-			state.usersData = actions.payload
+			state.users = actions.payload
 		},
-		[fetchUsers.rejected]: () => {},
+		[fetchUsers.error]: (state) => {
+         state.status = 'rejected'
+      },
 	},
 })
 

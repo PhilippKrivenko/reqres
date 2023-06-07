@@ -1,34 +1,46 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUsers } from '../../store/reqresSlice'
+import UsersListItem from '../users-list-item'
+import ErrorIndicator from '../error-indicator'
+import Spinner from '../spinner'
+import './users-list.css'
 
-const UsersList = () => {
-	const users = useSelector((state) => state.reqres.usersData)
-	const dispatch = useDispatch()
-
-	useEffect(() => {
-		dispatch(fetchUsers())
-	})
-
-	const items = users.map((item) => {
-		const { id, email, firstName, avatar } = item
-
-		return (
-			<li key={id}>
-				<h3>{firstName}</h3>
-				<span>{email}</span>
-				<img src={avatar} />
-			</li>
-		)
-	})
-
+const UsersList = ({ users }) => {
 	return (
-		<div>
+		<div className="container">
 			<h2>Hello ReqRes users!</h2>
 
-			<ul>{items}</ul>
+			<ul>
+				{users.map((user) => {
+					const { id } = user
+
+					return (
+						<li key={id}>
+							<UsersListItem user={user} />
+						</li>
+					)
+				})}
+			</ul>
 		</div>
 	)
 }
 
-export default UsersList
+const UsersListContainer = () => {
+	const { users, status } = useSelector((state) => state.reqres)
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(fetchUsers())
+	}, [])
+
+	if (status === 'pending') {
+		return <Spinner />
+	}
+	if (status === 'rejected') {
+		return <ErrorIndicator />
+	}
+	return <UsersList users={users} />
+}
+
+export default UsersListContainer
