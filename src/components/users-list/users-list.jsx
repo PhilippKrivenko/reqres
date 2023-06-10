@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchUsers } from '../../store/reqresSlice'
+import { fetchUsers } from '../../store/actions'
 import UsersListItem from '../users-list-item'
 import ErrorIndicator from '../error-indicator'
 import Spinner from '../spinner'
+import Pagination from '../pagination'
 import './users-list.css'
 
 const UsersList = ({ users }) => {
 	return (
-		<div className="container">
-			<h2>Hello ReqRes users!</h2>
+		<main className="container">
+			<h1>Hello ReqRes users!</h1>
 
 			<ul>
 				{users.map((user) => {
@@ -22,23 +23,27 @@ const UsersList = ({ users }) => {
 					)
 				})}
 			</ul>
-		</div>
+
+			<Pagination />
+		</main>
 	)
 }
 
 const UsersListContainer = () => {
-	const { users, status } = useSelector((state) => state.reqres)
+	const { users, status, error } = useSelector(
+		(state) => state.reqres
+	)
 	const dispatch = useDispatch()
 
 	useEffect(() => {
 		dispatch(fetchUsers())
-	}, [])
+	}, [dispatch])
 
 	if (status === 'pending') {
 		return <Spinner />
 	}
 	if (status === 'rejected') {
-		return <ErrorIndicator />
+		return <ErrorIndicator error={error} />
 	}
 	return <UsersList users={users} />
 }

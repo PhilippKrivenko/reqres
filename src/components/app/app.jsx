@@ -25,16 +25,12 @@ const App = () => {
 					<Router>
 						<Routes>
 							<Route
-								path="/"
+								path="/users/"
 								element={<UsersList />}
 							/>
 							<Route
 								path="/users/:id"
-								render={(match) => {
-									return (
-										<UserPage itemId={match.params.id} />
-									)
-								}}
+								element={<UserPage />}
 							/>
 							<Route
 								path=""
