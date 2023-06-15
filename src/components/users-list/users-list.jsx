@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUsers } from '../../store/actions'
 import UsersListItem from '../users-list-item'
@@ -8,13 +8,17 @@ import Spinner from '../spinner'
 import Pagination from '../pagination'
 import './users-list.css'
 import SearchPanel from '../search-panel'
+import { sizePage } from '../../store/reqresSlice'
 
-const UsersList = ({ users, onSelectedUser }) => {
+
+const UsersList = ({ users, onSelectedUser, onUsersOnPage }) => {
 	return (
-		<main className="container">
-			<h1>Hello ReqRes users!</h1>
-
-			<SearchPanel />
+		<div className="container">
+			<ul>
+				<li onClick={onUsersOnPage}>3</li>
+				<li onClick={onUsersOnPage}>6</li>
+				<li onClick={onUsersOnPage}>12</li>
+			</ul>
 
 			<ul>
 				{users.map((user) => {
@@ -31,22 +35,25 @@ const UsersList = ({ users, onSelectedUser }) => {
 					)
 				})}
 			</ul>
-
-			<Pagination />
-		</main>
+		</div>
 	)
 }
 
 const UsersListContainer = () => {
-	const [searchParams] = useSearchParams()
-	const currentPage = searchParams.get('page')
-	const { users, status, error, searchTerm } = useSelector(
-		(state) => state.reqres
-	)
+	const {
+		users,
+		status,
+		error,
+		queries,
+		queries: { page, perPage, term },
+	} = useSelector((state) => state.reqres)
+
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 
 	const onSelectedUser = (id) => navigate(`/users/${id}`)
+
+	const onUsersOnPage = (e) => dispatch(sizePage(e.target.innerText))
 
 	const search = (items, term) => {
 		if (term.length === 0) {
@@ -55,11 +62,12 @@ const UsersListContainer = () => {
 
 		return items.filter((item) => item.firstName.includes(term))
 	}
-	const visibleUsers = search(users, searchTerm)
+
+	const visibleUsers = search(users, term)
 
 	useEffect(() => {
-		dispatch(fetchUsers(currentPage))
-	}, [currentPage])
+		dispatch(fetchUsers(queries))
+	}, [page, perPage])
 
 	if (status === 'pending') {
 		return <Spinner />
@@ -67,7 +75,18 @@ const UsersListContainer = () => {
 	if (status === 'rejected') {
 		return <ErrorIndicator error={error} />
 	}
-	return <UsersList users={visibleUsers} onSelectedUser={onSelectedUser} />
+	return (
+		<main className="container">
+			<h1>Hello ReqRes users!</h1>
+			<SearchPanel />
+			<UsersList
+				users={visibleUsers}
+				onSelectedUser={onSelectedUser}
+				onUsersOnPage={onUsersOnPage}
+			/>
+			<Pagination />
+		</main>
+	)
 }
 
 export default UsersListContainer

@@ -6,9 +6,9 @@ const { getUser, getUsers, postUser } = new ReqresService()
 const fetchUsers = createAsyncThunk(
 	'reqres/fetchUsers',
 
-	async (page, { rejectWithValue }) => {
+	async (query, { rejectWithValue }) => {
 		try {
-			return await getUsers(page)
+			return await getUsers(query)
 		} catch (error) {
 			return rejectWithValue(error.message)
 		}

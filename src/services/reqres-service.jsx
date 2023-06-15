@@ -11,8 +11,10 @@ export default class ReqresService {
 		return res.json()
 	}
 
-	getUsers = async (page = 1) => {
-		const res = await this.getResource(`/users?page=${page}`)
+	getUsers = async ({ page, perPage }) => {
+		const res = await this.getResource(
+			`/users?page=${page}&per_page=${perPage}`
+		)
 
 		return {
 			data: res.data.map(this._transformUser),
@@ -22,7 +24,7 @@ export default class ReqresService {
 
 	getUser = async (userId) => {
 		const res = await this.getResource(`/users/${userId}`)
-      
+
 		return this._transformUser(res.data)
 	}
 

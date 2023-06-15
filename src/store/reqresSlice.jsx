@@ -6,7 +6,11 @@ const reqresSlice = createSlice({
 
 	initialState: {
 		users: [],
-		searchTerm: '',
+		queries: {
+			page: '1',
+			perPage: '6',
+			term: '',
+		},
 		pageInfo: {},
 		isLoggedIn: false,
 		status: null,
@@ -15,7 +19,13 @@ const reqresSlice = createSlice({
 
 	reducers: {
 		searchPanel(state, action) {
-			state.searchTerm = action.payload
+			state.queries.term = action.payload
+		},
+		pagination(state, action) {
+			state.queries.page = action.payload
+		},
+		sizePage(state, action) {
+			state.queries.perPage = action.payload
 		},
 	},
 
@@ -62,6 +72,6 @@ const reqresSlice = createSlice({
 	},
 })
 
-export const { searchPanel } = reqresSlice.actions
+export const { searchPanel, pagination, sizePage } = reqresSlice.actions
 
 export default reqresSlice.reducer
