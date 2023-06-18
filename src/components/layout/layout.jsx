@@ -6,9 +6,8 @@ const Layout = () => {
 	return (
 		<Fragment>
 			<header>
-				<Link to="/register">Register</Link>
+				<Link to="/login">Login</Link>
 				<Link to="/create">Create user</Link>
-				<Link to="/update">Update user</Link>
 			</header>
 
 			<Outlet />

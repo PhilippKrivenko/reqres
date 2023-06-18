@@ -5,7 +5,9 @@ export default class ReqresService {
 		const res = await fetch(`${this._apiBase}${url}`)
 
 		if (!res.ok) {
-			throw new Error(`Could not fetch ${url} received ${res.status}`)
+			throw new Error(
+				`Could not fetch ${url} received ${res.status}`
+			)
 		}
 
 		return res.json()
@@ -29,9 +31,72 @@ export default class ReqresService {
 	}
 
 	postUser = async (newUser) => {
-		const res = await fetch(`${this._apiBase}/users?delay=3`, {
+		const res = await fetch(`${this._apiBase}/users`, {
 			method: 'POST',
 			body: JSON.stringify(newUser),
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			},
+		})
+
+		if (!res.ok) {
+			throw new Error(`Could not fetch received ${res.status}`)
+		}
+
+		return res.json()
+	}
+
+	putUser = async (updatedUser) => {
+		const res = await fetch(
+			`${this._apiBase}/users/${updatedUser.id}`,
+			{
+				method: 'put',
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+				},
+				body: JSON.stringify(updatedUser),
+			}
+		)
+
+		if (!res.ok) {
+			throw new Error(`Could not fetch received ${res.status}`)
+		}
+
+		return res.json()
+	}
+
+	delUser = async (userId) => {
+		const res = await fetch(`${this._apiBase}/users/${userId}`, {
+			method: 'DELETE',
+		})
+
+		if (!res.ok) {
+			throw new Error(`Could not fetch received ${res.status}`)
+		}
+
+		return res.json()
+	}
+
+	registerUser = async (auth) => {
+		const res = await fetch(`${this._apiBase}/register`, {
+			method: 'POST',
+			body: JSON.stringify(auth),
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			},
+		})
+
+		if (!res.ok) {
+			throw new Error(`Could not fetch received ${res.status}`)
+		}
+
+		return res.json()
+	}
+
+	loginUser = async (auth) => {
+		const res = await fetch(`${this._apiBase}/login`, {
+			method: 'POST',
+			body: JSON.stringify(auth),
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
 			},

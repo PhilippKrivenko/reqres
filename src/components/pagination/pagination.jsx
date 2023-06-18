@@ -1,12 +1,8 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
-import { pagination } from '../../store/reqresSlice'
+import { useSelector } from 'react-redux'
 
-const Pagination = () => {
+const Pagination = ({ onChangePage }) => {
 	const { totalPages } = useSelector((state) => state.reqres.pageInfo)
-	const [searchParams, setSearchParams] = useSearchParams()
-	const dispatch = useDispatch()
 
 	const getArrayPages = () => {
 		const pagesList = []
@@ -16,13 +12,6 @@ const Pagination = () => {
 		}
 
 		return pagesList
-	}
-
-	const onChangePage = (e) => {
-		e.preventDefault()
-
-		const query = e.target.innerText
-		dispatch(pagination(query))
 	}
 
 	const pages = getArrayPages()
