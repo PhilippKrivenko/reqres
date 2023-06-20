@@ -9,7 +9,7 @@ import UserPage from '../pages/user-page'
 import LoginPage from '../pages/login-page'
 import Layout from '../layout'
 import CreateUserPage from '../pages/create-user-page'
-import RequireAuth from '../hoc/require-auth'
+import RequireAuth from '../hoc-helpers/require-auth'
 import RegisterPage from '../pages/register-page'
 
 import './app.css'

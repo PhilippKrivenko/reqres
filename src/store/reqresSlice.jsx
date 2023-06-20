@@ -2,98 +2,45 @@ import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import ReqresService from '../services/reqres-service'
 
-const {
-	getUser,
-	getUsers,
-	postUser,
-	putUser,
-	delUser,
-	registerUser,
-	loginUser,
-} = new ReqresService()
+const { getUser, getUsers, postUser, putUser, delUser } =
+	new ReqresService()
 
-export const fetchUsers = createAsyncThunk(
+const createThunkCreator = (typePrefix, method) => {
+	return createAsyncThunk(
+		typePrefix,
+		async (query, { rejectWithValue }) => {
+			try {
+				return await method(query)
+			} catch (error) {
+				return rejectWithValue(error.message)
+			}
+		}
+	)
+}
+
+export const fetchUsers = createThunkCreator(
 	'reqres/fetchUsers',
-
-	async (query, { rejectWithValue }) => {
-		try {
-			return await getUsers(query)
-		} catch (error) {
-			return rejectWithValue(error.message)
-		}
-	}
+	getUsers
 )
 
-export const fetchUser = createAsyncThunk(
+export const fetchUser = createThunkCreator(
 	'reqres/fetchUser',
-
-	async (userId, { rejectWithValue }) => {
-		try {
-			return await getUser(userId)
-		} catch (error) {
-			return rejectWithValue(error.message)
-		}
-	}
+	getUser
 )
 
-export const createUser = createAsyncThunk(
+export const createUser = createThunkCreator(
 	'reqres/createUser',
-
-	async (newUser, { rejectWithValue }) => {
-		try {
-			return await postUser(newUser)
-		} catch (error) {
-			return rejectWithValue(error.message)
-		}
-	}
+	postUser
 )
 
-export const updateUser = createAsyncThunk(
+export const updateUser = createThunkCreator(
 	'reqres/updateUser',
-
-	async (updateUser, { rejectWithValue }) => {
-		try {
-			return await putUser(updateUser)
-		} catch (error) {
-			return rejectWithValue(error.message)
-		}
-	}
+	putUser
 )
 
-export const deleteUser = createAsyncThunk(
+export const deleteUser = createThunkCreator(
 	'reqres/deleteUser',
-
-	async (userId, { rejectWithValue }) => {
-		try {
-			return await delUser(userId)
-		} catch (error) {
-			return rejectWithValue(error.message)
-		}
-	}
-)
-
-export const register = createAsyncThunk(
-	'reqres/register',
-
-	async (auth, { rejectWithValue }) => {
-		try {
-			return await registerUser(auth)
-		} catch (error) {
-			return rejectWithValue(error.message)
-		}
-	}
-)
-
-export const login = createAsyncThunk(
-	'reqres/login',
-
-	async (auth, { rejectWithValue }) => {
-		try {
-			return await loginUser(auth)
-		} catch (error) {
-			return rejectWithValue(error.message)
-		}
-	}
+	delUser
 )
 
 const reqresSlice = createSlice({
@@ -106,8 +53,6 @@ const reqresSlice = createSlice({
 
 		status: null,
 		error: null,
-
-		isLoggedIn: false,
 	},
 
 	reducers: {},
@@ -175,32 +120,6 @@ const reqresSlice = createSlice({
 			console.log('delete')
 		},
 		[deleteUser.rejected]: (state, action) => {
-			state.status = 'rejected'
-			state.error = action.payload
-		},
-
-		[register.pending]: (state) => {
-			state.status = 'pending'
-			state.error = null
-		},
-		[register.fulfilled]: (state, action) => {
-			state.status = 'resolved'
-			console.log(action.payload)
-		},
-		[register.rejected]: (state, action) => {
-			state.status = 'rejected'
-			state.error = action.payload
-		},
-
-		[login.pending]: (state) => {
-			state.status = 'pending'
-			state.error = null
-		},
-		[login.fulfilled]: (state, action) => {
-			state.status = 'resolved'
-			console.log(action.payload)
-		},
-		[login.rejected]: (state, action) => {
 			state.status = 'rejected'
 			state.error = action.payload
 		},

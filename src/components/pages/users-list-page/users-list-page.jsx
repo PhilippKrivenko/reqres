@@ -14,7 +14,7 @@ const UsersListPage = () => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 
-	const { users, status, error } = useSelector((state) => state.reqres)
+	const { users, status, error } = useSelector(state => state.reqres)
 
 	const [page, setPage] = useState('')
 	const [perPage, setPerPage] = useState('')
@@ -24,13 +24,13 @@ const UsersListPage = () => {
 		if (term.length === 0) {
 			return items
 		}
-		return items.filter((item) => item.firstName.includes(term))
+		return items.filter(item => item.firstName.includes(term))
 	}
 
-	const onSelectedUser = (id) => navigate(`/users/${id}`)
-	const onUsersOnPage = (e) => setPerPage(e.target.innerText)
-	const onSearchChange = (e) => setSearchTerm(e.target.value)
-	const onChangePage = (e) => setPage(e.target.innerText)
+	const onSelectedUser = id => navigate(`/users/${id}`)
+	const onUsersOnPage = e => setPerPage(e.target.innerText)
+	const onSearchChange = e => setSearchTerm(e.target.value)
+	const onChangePage = e => setPage(e.target.innerText)
 
 	const visibleUsers = searchUser(users, searchTerm)
 

@@ -1,29 +1,16 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { login } from '../../../store/reqresSlice'
+import ReqresService from '../../../services/reqres-service'
+import { setToken } from '../../../helpers'
+
 import './login-page.css'
 
 const LoginPage = () => {
 	const navigate = useNavigate()
-	const dispatch = useDispatch()
+	const { loginUser } = new ReqresService()
 
-	const handleSubmit = (e) => {
-		e.preventDefault()
-
-		const form = e.target
-
-		dispatch(
-			login({
-				email: form.email.value,
-				password: form.password.value,
-			})
-		)
-
-		if (form.rememberMe) {
-		}
-
-		navigate('/login')
+	const handleSubmit = () => {
+		navigate('/')
 	}
 
 	return (
@@ -33,18 +20,24 @@ const LoginPage = () => {
 			<form onSubmit={handleSubmit}>
 				<label>
 					Email:
-					<input type="text" name="email" id="email" />
+					<input
+						type="text"
+						name="email"
+						id="email"
+						defaultValue="eve.holt@reqres.in"
+					/>
 				</label>
 				<label>
 					Password:
-					<input type="text" name="password" id="password" />
+					<input
+						type="text"
+						name="password"
+						id="password"
+						defaultValue="pistol"
+					/>
 				</label>
 				<label>
-					<input
-						type="checkbox"
-						name="rememberMe"
-						id="rememberMe"
-					/>
+					<input type="checkbox" name="rememberMe" id="rememberMe" />
 					Remember me
 				</label>
 

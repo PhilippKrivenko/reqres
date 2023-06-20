@@ -37,9 +37,9 @@ const CreateUserPageContainer = () => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 
-	const { error, status } = useSelector((state) => state.reqres)
+	const { error, status } = useSelector(state => state.reqres)
 
-	const handleSubmit = (e) => {
+	const handleSubmit = e => {
 		e.preventDefault()
 
 		const form = e.target
@@ -51,16 +51,15 @@ const CreateUserPageContainer = () => {
 		}
 
 		dispatch(createUser(newUser))
-
-		if (status === 'pending') {
-			return <Spinner />
-		}
-		if (status === 'rejected') {
-			return <ErrorIndicator error={error} />
-		}
 		navigate('/')
 	}
 
+	if (status === 'pending') {
+		return <Spinner />
+	}
+	if (status === 'rejected') {
+		return <ErrorIndicator error={error} />
+	}
 	return <CreateUserPage handleSubmit={handleSubmit} />
 }
 

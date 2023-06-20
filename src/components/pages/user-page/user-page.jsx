@@ -21,12 +21,6 @@ const UserPage = () => {
 	const onDeleteUser = () => {
 		dispatch(deleteUser(id))
 
-		if (status === 'pending') {
-			return <Spinner />
-		}
-		if (status === 'rejected') {
-			return <ErrorIndicator error={error} />
-		}
 		navigate('/')
 	}
 	const handleSubmit = (e) => {
@@ -42,13 +36,6 @@ const UserPage = () => {
 		}
 
 		dispatch(updateUser(updatedUser))
-
-		if (status === 'pending') {
-			return <Spinner />
-		}
-		if (status === 'rejected') {
-			return <ErrorIndicator error={error} />
-		}
 		setEditMode(!editMode)
 	}
 

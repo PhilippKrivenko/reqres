@@ -1,28 +1,48 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { register } from '../../../store/reqresSlice'
+import ReqresService from '../../../services/reqres-service'
+import { setToken } from '../../../helpers'
+import { useForm } from 'react-hook-form'
+
+const RegisterForm = ({ onSubmit }) => {
+	const {
+		register,
+		formState: { errors },
+		handleSubmit,
+		reset,
+	} = useForm({
+		mode: 'all',
+	})
+
+	return (
+		<form onSubmit={handleSubmit(onSubmit)}>
+			<label>
+				Email:
+				<input
+					{...register('email', {
+						required: 'Поле обязательно к заполнению',
+					})}
+				/>
+			</label>
+			<div>{errors?.email && <p>{errors?.email?.message || 'Error!'}</p>}</div>
+
+			<label>
+				Password:
+				<input {...register('password', { required: true })} />
+			</label>
+			<div>{errors?.email && <p>{errors?.email?.message || 'Error!'}</p>}</div>
+
+			<button type="submit">Register</button>
+		</form>
+	)
+}
 
 const RegisterPage = () => {
 	const navigate = useNavigate()
-	const dispatch = useDispatch()
+	const { registerUser } = new ReqresService()
 
-	const handleSubmit = (e) => {
-		e.preventDefault()
-
-		const form = e.target
-
-		console.log({
-			email: form.email.value,
-			password: form.password.value,
-		})
-
-		// dispatch(
-		// 	register({
-		// 		email: form.email.value,
-		// 		password: form.password.value,
-		// 	})
-		// )
+	const onSubmit = data => {
+		setToken(data, registerUser)
 
 		navigate('/login')
 	}
@@ -30,19 +50,7 @@ const RegisterPage = () => {
 	return (
 		<div>
 			<h1>Register</h1>
-
-			<form onSubmit={handleSubmit}>
-				<label>
-					Email:
-					<input type="text" name="email" id="email" />
-				</label>
-				<label>
-					Password:
-					<input type="text" name="password" id="password" />
-				</label>
-
-				<button type="submit">Register</button>
-			</form>
+			<RegisterForm onSubmit={onSubmit} />
 		</div>
 	)
 }
