@@ -1,4 +1,5 @@
-import { setToken, getToken } from './local-storage'
-import { numberToArray } from './number-to-array'
+import { useLocalStorage } from './hooks/useLocalStorage'
+import { withAuth } from './hoc/withAuth'
+import { numberToArray } from './utils/number-to-array'
 
-export { setToken, getToken, numberToArray }
+export { numberToArray, useLocalStorage, withAuth }

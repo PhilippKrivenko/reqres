@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { UserCard } from '../../../entities/user-card/model'
+import { UserCard } from '../../../entities'
 
 export const Page = ({ onDeleteUser }) => {
 	return (
