@@ -8,7 +8,7 @@ export const Card = ({ user }) => {
 			<p>{firstName}</p>
 			<p>{lastName}</p>
 			<p>{email}</p>
-			<img src={avatar} alt="img" />
+			<img src={avatar} alt='img' />
 		</div>
 	)
 }

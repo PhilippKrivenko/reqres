@@ -6,7 +6,7 @@ export const RequireAuth = ({ children }) => {
 	const auth = getToken('token') ? true : false
 
 	if (!auth) {
-		return <Navigate to="/login" />
+		return <Navigate to='/login' />
 	}
 
 	return children

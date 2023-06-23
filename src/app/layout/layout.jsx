@@ -5,8 +5,8 @@ export const Layout = () => {
 	return (
 		<>
 			<header>
-				<Link to="/login">Login</Link>
-				<Link to="/create">Create user</Link>
+				<Link to='/login'>Login</Link>
+				<Link to='/create'>Create user</Link>
 			</header>
 
 			<Outlet />
