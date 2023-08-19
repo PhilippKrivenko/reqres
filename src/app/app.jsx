@@ -1,8 +1,9 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { Routing } from '../pages'
-import ErrorBoundry from './providers'
+import { ErrorBoundry } from '../shared'
+
 import './app.css'
+import { Routing } from './routes'
 
 export const App = () => {
 	return (
