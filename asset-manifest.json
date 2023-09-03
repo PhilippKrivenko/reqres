@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/reqres/static/css/main.c5d1f63c.css",
+    "main.js": "/reqres/static/js/main.fae19400.js",
+    "index.html": "/reqres/index.html",
+    "main.c5d1f63c.css.map": "/reqres/static/css/main.c5d1f63c.css.map",
+    "main.fae19400.js.map": "/reqres/static/js/main.fae19400.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c5d1f63c.css",
+    "static/js/main.fae19400.js"
+  ]
+}
